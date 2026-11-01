@@ -1,77 +1,84 @@
-# 01 — What is Infrastructure as Code (IaC)?
+# 01 — What is Infrastructure as Code?
 
-[← Index](00-index.md) · [Next: How Terraform Works →](02-how-terraform-works.md)
+[← Index](00-index.md) · [Next: Install & AWS Setup →](02-install-and-aws-setup.md)
+
+📘 Official tutorial: [What is Infrastructure as Code with Terraform?](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code)
 
 ---
 
 ## 🎯 Goal
-Understand **why** Terraform exists before learning **how** to use it.
+Understand **why** Terraform exists and the basic workflow before writing any code.
 
 ## 💡 The Idea
 
-**Infrastructure** = everything an app needs to run: servers, networks, storage, databases, monitoring.
+**Infrastructure as Code (IaC)** = managing servers, networks and databases with **code files** instead of clicking through the AWS console.
 
-There are three eras of managing it:
+> **Analogy:** Clicking in the console is building a house **without a blueprint**. You can do it, but you can't build an identical second house, and nobody knows exactly what you did. **Terraform code is the blueprint.**
 
-| Era | How it worked | Problem |
-|---|---|---|
-| **1. On-prem (old way)** | Buy physical servers, set them up by hand | Slow, expensive, can't scale |
-| **2. Cloud by clicking** | Click around the AWS console | Still manual, environments slowly become different |
-| **3. Infrastructure as Code** | Write files that describe what you want; a tool builds it | ✅ Fast, repeatable, tracked |
+### Why IaC beats clicking
 
-> **Analogy:** Building in the console is like building a house without a blueprint — you can do it, but you can't build an identical second house. **IaC is the blueprint.** Hand it to the builder and you get the same house every time.
-
-### The cloud's hidden problem: configuration drift
-Dev, staging and prod *should* be identical. But someone changes a setting by hand in one of them, and nobody writes it down. Over time they **drift** apart, and things break in prod that worked in dev.
-
-IaC fixes this: the code is the single source of truth.
-
-### Why IaC is better
-
-- **Consistent** — same code = same environment, every time
-- **Automated** — no clicking, fewer human errors
-- **Version controlled** — stored in Git, so you have history, reviews and rollbacks
-- **Fast** — rebuild a whole environment in minutes
-
-### Types of IaC tools
-
-| Cloud-specific (one cloud only) | Cloud-agnostic (any cloud) |
+| Clicking in the console | Terraform code |
 |---|---|
-| AWS CloudFormation, Azure ARM/Bicep, Google Cloud Deployment Manager | **Terraform**, OpenTofu, Pulumi |
+| Slow and manual | Automated and repeatable |
+| Dev, test and prod slowly become different ("drift") | Same code = same environment |
+| No history of who changed what | Stored in **Git**: history, reviews, rollback |
+| Hard to delete everything cleanly | One command destroys it all |
+
+### What makes Terraform special
+- **Declarative:** you describe **what** you want ("one EC2 server"), and Terraform figures out **how**.
+- **HCL:** a simple, readable language (files end in `.tf`).
+- **Providers:** plugins that let Terraform manage almost anything with an API: **AWS**, Azure, GCP, Kubernetes, GitHub, Databricks, Elastic and thousands more.
+- **State:** Terraform remembers what it built, so it can update and delete precisely.
+
+> **Declarative analogy:** ordering at a restaurant. You say "I want a burger" (what). You don't tell the chef how to cook it (how).
+
+### The core workflow
+
+```
+   WRITE  ──▶  PLAN  ──▶  APPLY
+   code        preview    make it real
+```
+
+| Step | What happens | Analogy |
+|---|---|---|
+| **Write** | Describe resources in `.tf` files | Draw the blueprint |
+| **Plan** | Terraform shows what it *would* change. Nothing changes yet | Contractor gives a quote |
+| **Apply** | Terraform makes the changes through the AWS API | Contractor builds it |
 
 ## 🔑 Key Terms
 
 | Term | Meaning |
 |---|---|
-| **Infrastructure** | Servers, networks, storage, databases an app runs on |
-| **IaC** | Managing infrastructure with code files instead of clicking |
-| **Configuration drift** | When environments become different because of untracked manual changes |
-| **Cloud-agnostic** | Works with many cloud providers |
+| **IaC** | Managing infrastructure with code |
+| **Declarative** | Describe the end result, not the steps |
+| **HCL** | HashiCorp Configuration Language |
+| **Provider** | Plugin connecting Terraform to a platform (e.g., AWS) |
+| **Resource** | One piece of infrastructure (e.g., an EC2 instance) |
+| **State** | Terraform's record of what it built |
+| **Drift** | Real infrastructure no longer matches the code |
 
 ## ⚠️ Watch Out
-IaC doesn't *remove* the cloud console — it means you **stop making changes there**. A manual change on something Terraform manages creates drift.
+Once Terraform manages something, **stop changing it by hand in the console**. Manual changes create drift.
 
 ## 🧠 Recall
-Answer from memory, then check.
-
-1. What is "infrastructure"?
-2. What is configuration drift?
-3. Give 3 benefits of IaC.
-4. Is Terraform cloud-specific or cloud-agnostic?
+1. What is IaC?
+2. What does "declarative" mean?
+3. What are the three workflow steps?
+4. What is a provider?
 
 <details><summary>Answers</summary>
 
-1. Everything an app needs to run: servers, networks, storage, databases, monitoring.
-2. Environments slowly becoming different because of manual, untracked changes.
-3. Consistency, automation, version control (also speed/repeatability).
-4. Cloud-agnostic.
+1. Managing infrastructure with code files instead of manual clicking.
+2. You describe what you want; Terraform figures out how.
+3. Write → Plan → Apply.
+4. A plugin that lets Terraform talk to a platform's API (like AWS).
 </details>
 
 ## 📌 Remember
-- IaC = **infrastructure written as code**
-- It solves **manual work** and **drift**
-- Terraform works across **any cloud**
+- IaC = **the blueprint**
+- **Write → Plan → Apply**
+- Declarative: **what, not how**
 
 ---
 
-[← Index](00-index.md) · [Next: How Terraform Works →](02-how-terraform-works.md)
+[← Index](00-index.md) · [Next: Install & AWS Setup →](02-install-and-aws-setup.md)
